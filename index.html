@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            width: 80%;
+            max-width: 700px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        video {
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        .controls button {
+            margin: 10px;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .controls button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Video Editor</h1>
+        <input type="file" id="upload" accept="video/*" />
+        <video id="videoPlayer" controls></video>
+        <div class="controls">
+            <button id="playPauseBtn">Play</button>
+            <button id="muteBtn">Mute</button>
+            <button id="speedBtn">Speed</button>
+        </div>
+    </div>
+
+    <script>
+        const upload = document.getElementById('upload');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const speedBtn = document.getElementById('speedBtn');
+
+        let isPlaying = false;
+        let isMuted = false;
+        let playbackSpeed = 1;
+
+        // Upload video
+        upload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            const fileURL = URL.createObjectURL(file);
+            videoPlayer.src = fileURL;
+        });
+
+        // Play / Pause Button
+        playPauseBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                videoPlayer.pause();
+                playPauseBtn.textContent = "Play";
+            } else {
+                videoPlayer.play();
+                playPauseBtn.textContent = "Pause";
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Mute / Unmute Button
+        muteBtn.addEventListener('click', () => {
+            if (isMuted) {
+                videoPlayer.muted = false;
+                muteBtn.textContent = "Mute";
+            } else {
+                videoPlayer.muted = true;
+                muteBtn.textContent = "Unmute";
+            }
+            isMuted = !isMuted;
+        });
+
+        // Speed Button
+        speedBtn.addEventListener('click', () => {
+            playbackSpeed = playbackSpeed === 1 ? 1.5 : playbackSpeed === 1.5 ? 2 : 1;
+            videoPlayer.playbackRate = playbackSpeed;
+            speedBtn.textContent = `Speed: ${playbackSpeed}x`;
+        });
+    </script>
+</body>
+</html>
